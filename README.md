@@ -54,5 +54,5 @@ This project is a **document ingestion and retrieval system** using AWS services
 - Ask questions in the chat interface about uploaded documents
 - Chatbot will automatically detect new uploads and respond
 
-## License
-MIT License
+<!--## License
+MIT License-->
