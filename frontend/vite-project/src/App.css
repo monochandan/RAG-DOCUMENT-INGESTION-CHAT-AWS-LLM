@@ -1,0 +1,78 @@
+/* body, html{
+  background-color: antiquewhite;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+} */
+
+.app-container{
+  max-width: 100%;
+  /* margin: 10px 10px 10px 10px;  */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  /* full height */
+  /* width: 100%;
+  height: 100%; */
+  /* display: flex;
+  flex-direction: column; */
+  /* column-count: 3; */
+  display: flex;
+  flex-direction: row; /*side by side columns*/
+  height: 100vh; /*take all height of the browser*/
+  /* width: 100%; */
+}
+.document-uploader-inside-app-container{
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* width: 25%;
+  height: 100%; */
+  /* float: left; */
+  /* background-color: rosybrown;
+  border-collapse: collapse; */
+  /* margin-bottom: 20px; */
+  flex: 20%;
+  align-items: center;
+  /* border: 1px solid black; */
+  padding: 5px;
+  margin: 5px;
+}
+.pdf-viewer-inside-app-container{
+  /* display: flex;
+  flex-direction:column;
+  align-items: center; */
+  /* margin-bottom: 20px; */
+  /* width: 50%;
+  height: 100%; */
+  border-radius: 50px;
+  border: 1px solid black;
+  flex: 40%;
+  align-items: center;
+  /* padding: 5px; */
+  margin: 5px 5px;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+.chat-interface-inside-app-container{
+  display: flex;
+  flex-direction: column; /* put elements vertically */
+  /* align-items: center; */ 
+  /* width: 100%;
+  height: 100px; */
+  /* margin-bottom: 20px; */
+  flex: 40%;
+  align-items: center;
+  padding:5px;
+  margin: 5px;
+}
+.chat-message-container{
+  flex-grow: 1; /*take up all the vertical(because flex-direction: column) space*/
+  overflow: scroll;
+  scrollbar-width: none;
+}
+/* .chat-input-container{
+
+} */
+

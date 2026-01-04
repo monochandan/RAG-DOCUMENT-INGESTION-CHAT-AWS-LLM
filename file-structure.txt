@@ -1,0 +1,68 @@
+
+envs - aws-rag(backend), venv(document uploader)
+
+
+
+project/
+├── backend/                           # Backend service using FastAPI
+│   ├── app/
+│   │   ├── api/                       # Route handlers for API endpoints
+│   │   │   ├── ingest.py              # Endpoint for uploading documents
+│   │   │   ├── query.py               # Endpoint for RAG-based question answering
+│   │   │   └── health.py              # Basic health-check endpoint
+│   │   ├── core/                      # Core backend logic and configurations
+│   │   │   ├── config.py              # App settings and environment configs
+│   │   │   ├── aws_client.py          # AWS S3 and Bedrock client setup
+│   │   │   └── rag_pipeline.py        # End-to-end RAG processing logic
+│   │   ├── models/                    # Request/response Pydantic models
+│   │   ├── utils/                     # Helper functions for backend
+│   │   └── main.py                    # FastAPI entry point
+│   ├── requirements.txt               # Python dependencies
+│   └── Dockerfile                     # Docker container for backend deployment
+│
+└── frontend/                          # Frontend React application
+    ├── src/
+    │   ├── components/                # Reusable UI components
+    │   │   ├── Navbar.jsx             # Top navigation bar
+    │   │   ├── FileUploader.jsx       # Document upload UI component
+    │   ├── pages/                     # Page-level views
+    │   │   ├── Ingest.jsx             # Document ingestion page
+    │   │   ├── Chat.jsx               # Chat interface page
+    │   ├── hooks/                     # Custom React hooks
+    │   ├── lib/                       # API clients or utility libraries
+    │   ├── App.jsx                    # Main app-level component
+    │   ├── main.jsx                   # React root entry point
+    │   └── index.css                  # Global styles
+    ├── public/                        # Static assets
+    ├── package.json                   # Frontend dependencies and scripts
+    └── vite.config.js                 # Vite dev server config
+
+
+
+
+CURRENT S3 CORS policy (30.12.2025):
+[
+  {
+    "AllowedHeaders": ["*"],
+    // It allows the browser to fetch (read/download) files from S3 using HTTP GET.
+    "AllowedMethods": ["GET"], 
+    "AllowedOrigins": ["http://localhost:5173"],
+    "ExposeHeaders": [],
+    "MaxAgeSeconds": 3000
+  }
+]
+
+
+IAM -> Policies (initial template)
+
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Effect": "Allow",
+			"Action": [],
+			"Resource": []
+		}
+	]
+}

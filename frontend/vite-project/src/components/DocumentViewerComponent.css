@@ -1,0 +1,22 @@
+.document-viewer-container{
+    background-color: rgb(168, 165, 165);
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    border-radius: 10px;
+    /* padding: 10px 10px 10px 10px; */
+    }
+.doc-vew{
+    flex-grow: 1;
+    align-items: center;
+}
+.init-mssg, .loading-mssg {
+  display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center;     /* vertical */
+  height: 100%;            /* fill parent container */
+  font-size: 16px;
+  color: #333;
+}
