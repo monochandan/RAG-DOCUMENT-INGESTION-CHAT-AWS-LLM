@@ -28,7 +28,9 @@ function DocumentViewerComponent({fileKey}){
         console.log("file key:", fileKey);
         axios.get(`http://localhost:8000/view/${fileKey}`)
         .then((response) => {
+            // console.log("response url: ",response)
             setUrl(response.data.url);
+            console.log("url:", url)
             if (fileKey)
                 toast.success(`Loaded ${fileKey}....`);
         })
@@ -63,8 +65,9 @@ function DocumentViewerComponent({fileKey}){
                             <Page 
                                 key={`page_${index + 1}`}
                                 pageNumber={index + 1}
-                                /*onChange={() => setPageNumber(index + 1)}*/>
-                            <p font="5px">Page {index + 1} of {numPages}</p>
+                                /*onChange={() => setPageNumber(index + 1)}*/
+                            >
+                              <p font="5px">Page {index + 1} of {numPages}</p>
                             </Page>
                         )
                         )}

@@ -78,7 +78,7 @@ function UploadDocumentComponent({filesList, refreshFilesList, onSelectedDoc}) {
         const formData = new FormData();
         // formData.append("title", title);
         formData.append("file", file);
-        // console.log("form Data",formData);
+        console.log("form Data",formData);
         // console.log("uploaded fil name:", file.name)
 
         axios.post('http://localhost:8000/upload', formData, {
@@ -101,7 +101,7 @@ function UploadDocumentComponent({filesList, refreshFilesList, onSelectedDoc}) {
             fileInputRef.current.value = "";
 
         }).catch((error) => {
-            toast.error("Document faield to upload, please check the console!");
+            toast.error("Document faild to upload, please check the console!");
             console.log(error);
         });
 

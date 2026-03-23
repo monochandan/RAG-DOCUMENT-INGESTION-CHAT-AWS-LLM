@@ -84,8 +84,9 @@ function App() {
         axios.get('http://localhost:8000/getallfiles')
         .then((response) => {
             setFilesList(response.data.Contents);
-            // console.log(response);
-            console.log(response.data.Contents);
+            console.log("response:", response);
+            console.log("files:", filesList);
+            console.log("data in response:", response.data.Contents);
         })
         .catch((error) => {
             console.log(error);

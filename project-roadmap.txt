@@ -1,0 +1,212 @@
+
+envs - aws-rag(backend), venv(document uploader)
+
+
+
+project/
+├── backend/                           # Backend service using FastAPI
+│   ├── app/
+│   │   ├── api/                       # Route handlers for API endpoints
+│   │   │   ├── ingest.py              # Endpoint for uploading documents
+│   │   │   ├── query.py               # Endpoint for RAG-based question answering
+│   │   │   └── health.py              # Basic health-check endpoint
+│   │   ├── core/                      # Core backend logic and configurations
+│   │   │   ├── config.py              # App settings and environment configs
+│   │   │   ├── aws_client.py          # AWS S3 and Bedrock client setup
+│   │   │   └── rag_pipeline.py        # End-to-end RAG processing logic
+│   │   ├── models/                    # Request/response Pydantic models
+│   │   ├── utils/                     # Helper functions for backend
+│   │   └── main.py                    # FastAPI entry point
+│   ├── requirements.txt               # Python dependencies
+│   └── Dockerfile                     # Docker container for backend deployment
+│
+└── frontend/                          # Frontend React application
+    ├── src/
+    │   ├── components/                # Reusable UI components
+    │   │   ├── Navbar.jsx             # Top navigation bar
+    │   │   ├── FileUploader.jsx       # Document upload UI component
+    │   ├── pages/                     # Page-level views
+    │   │   ├── Ingest.jsx             # Document ingestion page
+    │   │   ├── Chat.jsx               # Chat interface page
+    │   ├── hooks/                     # Custom React hooks
+    │   ├── lib/                       # API clients or utility libraries
+    │   ├── App.jsx                    # Main app-level component
+    │   ├── main.jsx                   # React root entry point
+    │   └── index.css                  # Global styles
+    ├── public/                        # Static assets
+    ├── package.json                   # Frontend dependencies and scripts
+    └── vite.config.js                 # Vite dev server config
+
+
+
+
+CURRENT S3 CORS policy (30.12.2025):
+[
+  {
+    "AllowedHeaders": ["*"],
+    // It allows the browser to fetch (read/download) files from S3 using HTTP GET.
+    "AllowedMethods": ["GET"], 
+    "AllowedOrigins": ["http://localhost:5173"],
+    "ExposeHeaders": [],
+    "MaxAgeSeconds": 3000
+  }
+]
+
+
+IAM -> Policies (initial template)
+
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Effect": "Allow",
+			"Action": [],
+			"Resource": []
+		}
+	]
+}
+
+backend:
+1. python -m venv aws-rag
+2. pip install fastapi uvicorn boto3 opensearch-py langchain pymupdf
+3. uvicorn main:app --reload
+
+# ERROR -
+
+  raise RuntimeError(multipart_not_installed_error) from None
+  RuntimeError: Form data requires "python-multipart" to be installed.
+  You can install "python-multipart" with:
+
+  pip install python-multipart
+
+
+Database:
+ Supabase
+  - store the metadat about the doc
+    - rag-doc-ai (project name), 5ro98NoxjWhVk5AY
+  - integrate with fastapi:
+                 https://supabase.com/docs/guides/getting-started/quickstarts/flask
+                 https://blog.theinfosecguy.xyz/building-a-crud-api-with-fastapi-and-supabase-a-step-by-step-guide
+    - pip install python-dotenv
+    - create db folder
+    - create models.py validate the request body using pydentic Base Modle: https://docs.pydantic.dev/latest/concepts/models/
+    - pip install supabase
+    - create db/supabase.py : to create cilent to cal supabase in fastapi
+
+
+frontend:
+
+
+# when we upload a document 
+              # check if we can add the data in supabase or not 
+              # convertion
+              # check if already exist :  helper_functions.py
+              # add doc to the doc_metadata
+            # supabase = create_supabase_client()
+            # create an instance
+            # data = upload_doc(
+            #     created_at=datetime.now(),
+            #     # user_id=1,
+            #     document_name=file.filename,
+            #     storage_path=BUCKET_NAME,
+            #     file_type=file.content_type,
+            #     file_size=file.size,
+            #     upload_date=datetime.now(),
+            #     status= Status(
+            #          stored_in_s3 = True,
+            #          vectorization= "pending",
+            #          deleted_from_s3 = False
+            #     )
+                # status={
+                #         "stored_in_s3": True,
+                #         "vectorization": "pending",
+                #         "delete_from_s3": False
+                #         },
+            # )
+            # upload that instance
+            # response = (
+            #     supabase.from_("docmetadata")\
+            #     # .insert(data.model_dump())
+            #     .insert({
+            #     "created_at":datetime.now(),
+            #     "document_name":file.filename,
+            #     "storage_path":BUCKET_NAME,
+            #     "file_type":file.content_type,
+            #     "file_size":file.size,
+            #     "upload_date":datetime.now(),
+            #     "status":{
+            #          "stored_in_s3":True,
+            #          "vectorization":"pending",
+            #          "deleted_from_s3": False
+            #     }
+            #     })
+            #     .execute()
+            # )
+
+            
+            # convert the pdf to text
+            # contents = await file.read()
+            # # print("contents: ", contents)
+            # pdf_reader = PdfReader(BytesIO(contents))
+
+            # text = ""
+            # for page in pdf_reader.pages:
+            #     text += page.extract_text()
+            # # print("Text: ", text)
+
+            # # chunk the text data
+            # text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=0)
+            # texts = text_splitter.split_text(text)
+
+            # print("Chunked texts: ", texts)
+
+            # create embeddings
+
+            # vectorize using chromadb
+        #     vector_store = Chroma(
+        #     collection_name="example_collection",
+        #     embedding_function=embedding,
+        #     persist_directory="./backend/chroma_langchain_db",  # Where to save data locally, remove if not necessary
+        #    )
+
+
+
+         # UploadFile(filename='attention all you need.pdf', size=569417, headers=Headers
+            # ({'content-disposition': 'form-data; name="file"; filename="attention all you need.pdf"', 
+            # 'content-type': 'application/pdf'}))
+
+            # upload in s3
+            # print("Uploading file in s3:", file)
+            # s3.upload_fileobj(file.file, BUCKET_NAME, file.filename)
+    #         # get all text from the pdf
+
+
+
+
+    prompt = """
+        I am building a RAG system. The main focus should be sementic 
+        expension, which is best for search or RAG.
+        Clean the following text for storage in pgvector. 
+        Remove all null characters (\u0000), control characters, and invalid Unicode. 
+        Strip extra whitespace, punctuation, and HTML/entities. 
+        Convert to lowercase, remove stop words, and stem words. Return only the cleaned, 
+        space-separated text ready for embedding.
+
+        Now, convert the following text:
+        Statement: "{text}"
+        Response: 
+      """
+    prompt = prompt.format(text)
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    response = client.models.generate_content(
+        model = model, 
+        contents = prompt,
+    #     config={
+    #     "response_mime_type": "application/json",
+    #     # "response_json_schema": Recipe.model_json_schema(),
+    # },
+    )
+    print("response", response)
+
+
